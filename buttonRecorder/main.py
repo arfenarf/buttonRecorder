@@ -6,8 +6,7 @@ import os
 app = FastAPI()
 DB_PASSWORD = os.environ.get('TOFINO_POSTGRES_PW')
 def get_db_connection():
-    connection = psycopg2.connect(host='127.0.0.1',
-                                  dbname='kgw_data',
+    connection = psycopg2.connect(dbname='kgw_data',
                                   user='postgres',
                                   password=DB_PASSWORD,
                                   port=25432)
