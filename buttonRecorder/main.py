@@ -1,15 +1,15 @@
 from fastapi import FastAPI
 import psycopg2
 from datetime import datetime, timezone
-import os
+
 
 app = FastAPI()
-DB_PASSWORD = os.environ.get('TOFINO_POSTGRES_PW')
+
 def get_db_connection():
     connection = psycopg2.connect(host='tofino.local',
                                   dbname='kgw_data',
                                   user='postgres',
-                                  password=DB_PASSWORD,
+                                  password='***REMOVED***',
                                   port=25432)
     return connection
 

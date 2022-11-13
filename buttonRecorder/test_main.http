@@ -5,7 +5,7 @@ Accept: application/json
 
 ###
 
-GET http://0.0.0.0
+GET http://0.0.0.0:8000/button
 Accept: application/json
 
 ###
