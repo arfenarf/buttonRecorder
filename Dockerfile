@@ -35,4 +35,4 @@ RUN echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \
 EXPOSE 8000
 
 # ENTRYPOINT - allows you to configure a container that will run as an executable.
-ENTRYPOINT ["./serve.sh"]
+# ENTRYPOINT ["./serve.sh"]
