@@ -1,0 +1,27 @@
+# docker-compose build
+version: '3.9'
+volumes:
+  dbbackups:
+
+services:
+
+  db:
+    image: kartoza/postgis:14-3.2
+    shm_size: 1g
+    volumes:
+      - postgis-data:/var/lib/postgresql
+      - dbbackups:/backups
+    env_file:
+      - envs.env
+    ports:
+      - "25432:5432"
+    restart: on-failure
+    healthcheck:
+      test: "exit 0"
+
+  button-recorder:
+    image: api/button-recorder:0.0
+    ports:
+      - "8000:8000"
+    env_file:
+      - envs.env

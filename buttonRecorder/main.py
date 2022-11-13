@@ -1,16 +1,21 @@
-from fastapi import FastAPI
-import psycopg2
-from datetime import datetime, timezone
 import os
+from datetime import datetime, timezone
+
+import psycopg2
+from fastapi import FastAPI
 
 app = FastAPI()
 DB_PASSWORD = os.environ.get('TOFINO_POSTGRES_PW')
+
+
 def get_db_connection():
-    connection = psycopg2.connect(dbname='kgw_data',
+    connection = psycopg2.connect(host='database',
+                                  dbname='kgw_data',
                                   user='postgres',
                                   password=DB_PASSWORD,
                                   port=25432)
     return connection
+
 
 @app.get("/")
 async def root():
@@ -25,7 +30,7 @@ async def save_button_time():
             curs.execute("""
                 INSERT INTO button_presses (date_time_pressed)
                 VALUES (%s)
-            """, (utc_dt, ))
+            """, (utc_dt,))
         curs.close()
 
     return {"messages": f"posted {utc_dt}"}
