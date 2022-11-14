@@ -1,8 +1,3 @@
-"""
-This is the python translation of the code on the M5.
-The code is the UIFlow version - this is just a mirror
-"""
-
 from m5stack import *
 from m5ui import *
 from uiflow import *
@@ -10,8 +5,8 @@ import urequests
 import json
 
 from easyIO import *
-import wifiCfg
 import time
+import wifiCfg
 
 
 setScreenColor(0x111111)
@@ -25,6 +20,14 @@ label0 = M5TextBox(7, 225, "label0", lcd.FONT_Default, 0xFFFFFF, rotate=270)
 label1 = M5TextBox(109, 225, "label1", lcd.FONT_Default, 0xFFFFFF, rotate=270)
 
 
+# Updates battery levels and shuts off screen after 5s
+def update_battery():
+  global message
+  axp.setLcdBrightness(30)
+  label1.setText(str(map_value((axp.getBatVoltage()), 3.7, 4.1, 0, 100)))
+  wait(5)
+  axp.setLcdBrightness(0)
+
 
 def buttonA_wasPressed():
   global message
@@ -37,11 +40,21 @@ def buttonA_wasPressed():
   M5Led.on()
   wait(0.1)
   M5Led.off()
+  update_battery()
   pass
 btnA.wasPressed(buttonA_wasPressed)
 
+def buttonB_wasPressed():
+  global message
+  update_battery()
+  pass
+btnB.wasPressed(buttonB_wasPressed)
 
+
+axp.setLcdBrightness(30)
 label0.setText('Waiting for WiFi')
 label1.setText(str(map_value((axp.getBatVoltage()), 3.7, 4.1, 0, 100)))
 wifiCfg.autoConnect(lcdShow=False)
 label0.setText('Waiting For Button')
+wait(5)
+axp.setLcdBrightness(0)
